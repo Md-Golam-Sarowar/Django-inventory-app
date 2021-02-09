@@ -1,0 +1,132 @@
+
+<style>
+  #items {
+    font-family: Arial, Helvetica, sans-serif;
+    /* border-collapse: collapse; */
+    width: 50%;
+    margin-left: 25%;
+    border: lightslategray;
+    border: 1px solid rgb(20, 16, 16);
+    margin-top: 2%;
+  }
+
+  .align
+  {
+    text-align: center;
+  }
+
+  #items td, #items th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+
+  #items tr:nth-child(even){background-color: #f2f2f2;}
+
+  #items tr:hover {background-color: #ddd;}
+
+  #items th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+
+  }
+
+  input[type=number], select {
+        width: 80%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+  
+      input[type=text], select {
+        width: 80%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      
+      input[class=submit] {
+        width: 80%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      input[type=submit]:hover {
+        background-color: #45a049;
+        cursor: pointer;
+      }
+      
+      h2
+      {
+          text-align: center;
+          margin-top: 3%;
+      }
+  
+      div {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+      </style>
+
+<body class="align">
+
+<table id="items">
+  <tr>
+    <th>Item Content</th>
+    <th>Item Details</th>
+    <th>Item Delete</th>
+    <th>Item Update</th>
+  </tr>
+  {% for todo_item in all_items %}
+    <tr><td>{{ todo_item.content }}</td>
+      <td>
+      <form action="/itemDetails/{{todo_item.id}}/"
+        style="display: inline; margin-left: 2%;"
+        method="POST">{% csrf_token %}
+        <input type="submit" value="itemDetails"/>
+      </form>
+    </td>
+
+    <td>
+      <form action="/deleteTodo/{{todo_item.id}}/"
+            style="display: inline;"
+            method="post">{% csrf_token %}
+        <input type="submit" value="Delete"/>
+      </form>
+    </td>
+
+    <td>
+      <form action="/updateItem/{{todo_item.id}}/"
+         style="display: inline;"
+         method="post">{% csrf_token %}
+        <input type="submit" value="Update"/>
+    </form>
+  </td>
+  {% endfor %}
+</table>
+
+<h2>Add an item</h2>
+<form action="/addTodo/" method="post">{% csrf_token %}
+  <input type="text" name="content" placeholder="content"/>
+  <input type="text" name="name" placeholder="name"/>
+  <input type="number" name="price" placeholder="price" />
+  <input type="submit" class="submit" value="Add" />
+</form>
+
+</body>
